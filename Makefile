@@ -1,7 +1,7 @@
 CC=gcc
-CXXFLAGS= -ggdb -Ofast -Wall -Wno-unused-function -Wno-pointer-sign \
+CFLAGS= -ggdb -Ofast -Wall -Wno-unused-function -Wno-pointer-sign \
        -I. -Isecp256k1 -Isecp256k1/include -funsafe-loop-optimizations
-LDFLAGS=$(CXXFLAGS)
+LDFLAGS=$(CFLAGS)
 LDLIBS=-lm -lgmp -lstdc++
 
 SHA256=sha256/sha256.o sha256/sha256-avx-asm.o sha256/sha256-avx2-asm.o \
