@@ -26,7 +26,7 @@
 #define STEP 3072
 
 #include "src/libsecp256k1-config.h"
-#include "src/secp256k1.h"
+#include "src/secp256k1.c"
 
 
 #define MY_VERSION "0.3"
