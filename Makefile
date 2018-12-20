@@ -2,13 +2,13 @@
 CFLAGS= -ggdb -Ofast -Wall -Wno-unused-function -Wno-pointer-sign \
        -I. -Isecp256k1 -Isecp256k1/include -funsafe-loop-optimizations
 LDFLAGS=$(CFLAGS)
-LDLIBS=-lm -lgmp -lstdc++
+LDLIBS=-lm -lgmp 
 
 SHA256=sha256/sha256.o sha256/sha256-avx-asm.o sha256/sha256-avx2-asm.o \
        sha256/sha256-ssse3-asm.o sha256/sha256-ni-asm.o
 
-OBJS=vanitygen.o base58.o cpu.o rmd160.o SHA256string.o $(SHA256)
-CC=gcc -x c++
+OBJS=vanitygen.o base58.o cpu.o rmd160.o $(SHA256)
+CC=gcc 
 
 all: vanitygen
 

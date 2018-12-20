@@ -19,10 +19,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-extern "C" {
+
 #include "externs.h"
-}
-#include "SHA256string.h"
+#include <fstream>
 /* Number of secp256k1 operations per batch */
 #define STEP 3072
 
@@ -84,6 +83,23 @@ static void my_secp256k1_gej_add_ge_var(secp256k1_gej *r,
 
 // Main program entry.
 //
+uint8_t strToVal(const char c) {
+	if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+	if (c >= '0' && c <= '9') return c - '0';
+	return 0;
+}
+
+uint8_t strToByte(const char* twoBytes) {
+	return (strToVal(twoBytes[0]) << 4) | strToVal(twoBytes[1]);
+}
+int inputStringToPrivateKey(const char* privString, uint8_t* privateKey) {
+	std::string str(privString);
+	for (size_t i = 0; i < str.size(); i += 2) {
+		privateKey[31 - i / 2] = strToByte(&str[i]);
+	}
+	return 1;
+}
 int main(int argc, char *argv[])
 {
   char *arg;
@@ -775,23 +791,23 @@ static void engine(int thread)
   // to 0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C
   // D036 4140 is a valid private key.
 
-  if((fd=open("/dev/urandom", O_RDONLY|O_NOCTTY)) == -1) {
-    perror("/dev/urandom");
-    return;
-  }
+  // if((fd=open("/dev/urandom", O_RDONLY|O_NOCTTY)) == -1) {
+    // perror("/dev/urandom");
+    // return;
+  // }
 
-  /* Use 32 bytes from /dev/urandom as starting private key */
-  do {
-    if((len=read(fd, privkey, 32)) != 32) {
-      if(len != -1)
-        errno=EAGAIN;
-      perror("/dev/urandom");
-      return;
-    }
-  } while(privkey[0]+1 < 2);  /* Ensure only valid private keys */
+  // /* Use 32 bytes from /dev/urandom as starting private key */
+  // do {
+    // if((len=read(fd, privkey, 32)) != 32) {
+      // if(len != -1)
+        // errno=EAGAIN;
+      // perror("/dev/urandom");
+      // return;
+    // }
+  // } while(privkey[0]+1 < 2);  /* Ensure only valid private keys */
 
-  close(fd);
-
+  // close(fd);
+inputStringToPrivateKey("4C7A9640C72DC2099F23715D0C8A0D8A35F8906E3CAB61DD3F78B67BF8881D03", privkey);
   /* Copy private key to secp256k1 scalar format */
   secp256k1_scalar_set_b32(&scalar_key, (u8 *)privkey, NULL);
 
