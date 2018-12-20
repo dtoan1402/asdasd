@@ -63,10 +63,10 @@ typedef unsigned quad u64;
 #define ROL(x,n) ({ u32 _x=(x), _n=(n); (_x << _n) | (_x >> (32-_n)); })
 
 /* Generic min() and max() functions */
-#undef min
-#undef max
-#define min(x,y) ({ typeof(x) _x=x; typeof(y) _y=y; (_x < _y)?_x:_y; })
-#define max(x,y) ({ typeof(x) _x=x; typeof(y) _y=y; (_x > _y)?_x:_y; })
+// #undef min
+// #undef max
+// #define min(x,y) ({ typeof(x) _x=x; typeof(y) _y=y; (_x < _y)?_x:_y; })
+// #define max(x,y) ({ typeof(x) _x=x; typeof(y) _y=y; (_x > _y)?_x:_y; })
 
 /* Optimal way of keeping a number within a set range */
 #define RANGE(x,lo,hi) ({ typeof(x) _val=x, _lo=lo, _hi=hi; \
