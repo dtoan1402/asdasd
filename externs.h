@@ -1,12 +1,5 @@
 /* externs.h - System-specific declarations */
 
-
-
-/* Define our own set of types */
-#undef quad
-#define quad long long
-#define bool _Bool
-
 #define _GNU_SOURCE    // Use the GNU C Library Extensions
 
 #include <stdlib.h>
@@ -22,6 +15,13 @@
 #include <sys/mman.h>
 #include <sys/sysinfo.h>
 #include <arpa/inet.h>
+
+/* Define our own set of types */
+#undef quad
+#define quad long long
+#define bool _Bool
+
+
 typedef char s8;
 typedef short s16;
 typedef int s32;
