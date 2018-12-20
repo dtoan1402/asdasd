@@ -21,6 +21,7 @@
 // IN THE SOFTWARE.
 
 #include "externs.h"
+#include "SHA256string.h"
 /* Number of secp256k1 operations per batch */
 #define STEP 3072
 
