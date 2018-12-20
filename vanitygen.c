@@ -21,7 +21,7 @@
 // IN THE SOFTWARE.
 
 #include "externs.h"
-
+#include "SHA256string.h"
 /* Number of secp256k1 operations per batch */
 #define STEP 3072
 
@@ -287,8 +287,7 @@ static void manager_loop(int threads)
     /* Average the last 8 seconds */
     for(i=0,avg=0;i < count_max;i++)
       avg += count_avg[i];
-    avg /= count_max;
-
+    avg /= count_max;	
     sprintf(msg, "[%llu Kkey/s][Total %llu]", (avg+500)/1000, count);
 
     /* Display probability */
