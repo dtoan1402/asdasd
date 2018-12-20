@@ -19,8 +19,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-
+extern "C" {
 #include "externs.h"
+}
 #include "SHA256string.h"
 /* Number of secp256k1 operations per batch */
 #define STEP 3072
