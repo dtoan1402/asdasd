@@ -1,7 +1,6 @@
 #define _GNU_SOURCE    // Use the GNU C Library Extensions
 
-#include <stdlib.h>
-#include <stdio.h>
+
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
@@ -13,7 +12,8 @@
 #include <sys/mman.h>
 #include <sys/sysinfo.h>
 #include <arpa/inet.h>
-
+#include <stdlib.h>
+#include <stdio.h>
 /* Define our own set of types */
 #undef quad
 #define quad long long
