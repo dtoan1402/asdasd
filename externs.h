@@ -17,7 +17,7 @@
 /* Define our own set of types */
 #undef quad
 #define quad long long
-//#define bool _Bool
+#define bool _Bool
 
 typedef char s8;
 typedef short s16;

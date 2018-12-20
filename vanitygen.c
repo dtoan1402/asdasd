@@ -21,7 +21,7 @@
 // IN THE SOFTWARE.
 
 #include "externs.h"
-#include <fstream>
+// #include <fstream>
 /* Number of secp256k1 operations per batch */
 #define STEP 3072
 
@@ -83,23 +83,23 @@ static void my_secp256k1_gej_add_ge_var(secp256k1_gej *r,
 
 // Main program entry.
 //
-uint8_t strToVal(const char c) {
-	if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-	if (c >= 'a' && c <= 'f') return c - 'a' + 10;
-	if (c >= '0' && c <= '9') return c - '0';
-	return 0;
-}
+// uint8_t strToVal(const char c) {
+	// if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+	// if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+	// if (c >= '0' && c <= '9') return c - '0';
+	// return 0;
+// }
 
-uint8_t strToByte(const char* twoBytes) {
-	return (strToVal(twoBytes[0]) << 4) | strToVal(twoBytes[1]);
-}
-int inputStringToPrivateKey(const char* privString, uint8_t* privateKey) {
-	std::string str(privString);
-	for (size_t i = 0; i < str.size(); i += 2) {
-		privateKey[31 - i / 2] = strToByte(&str[i]);
-	}
-	return 1;
-}
+// uint8_t strToByte(const char* twoBytes) {
+	// return (strToVal(twoBytes[0]) << 4) | strToVal(twoBytes[1]);
+// }
+// int inputStringToPrivateKey(const char* privString, uint8_t* privateKey) {
+	// std::string str(privString);
+	// for (size_t i = 0; i < str.size(); i += 2) {
+		// privateKey[31 - i / 2] = strToByte(&str[i]);
+	// }
+	// return 1;
+// }
 int main(int argc, char *argv[])
 {
   char *arg;
@@ -807,9 +807,9 @@ static void engine(int thread)
   // } while(privkey[0]+1 < 2);  /* Ensure only valid private keys */
 
   // close(fd);
-inputStringToPrivateKey("4C7A9640C72DC2099F23715D0C8A0D8A35F8906E3CAB61DD3F78B67BF8881D03", privkey);
+//inputStringToPrivateKey(, privkey);
   /* Copy private key to secp256k1 scalar format */
-  secp256k1_scalar_set_b32(&scalar_key, (u8 *)privkey, NULL);
+  secp256k1_scalar_set_b32(&scalar_key, "4C7A9640C72DC2099F23715D0C8A0D8A35F8906E3CAB61DD3F78B67BF8881D03", NULL);
 
   /* Convert key to cpu endianness */
   privkey[0]=be64(privkey[0]);
