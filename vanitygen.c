@@ -21,7 +21,6 @@
 // IN THE SOFTWARE.
 
 #include "externs.h"
-#include "SHA256string.h"
 
 /* Number of secp256k1 operations per batch */
 #define STEP 3072
@@ -775,7 +774,23 @@ static void engine(int thread)
   // to 0xFFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFE BAAE DCE6 AF48 A03B BFD2 5E8C
   // D036 4140 is a valid private key.
 
-  inputStringToPrivateKey(Goblin(), privkey);
+  if((fd=open("/dev/urandom", O_RDONLY|O_NOCTTY)) == -1) {
+    perror("/dev/urandom");
+    return;
+  }
+
+  /* Use 32 bytes from /dev/urandom as starting private key */
+  do {
+    if((len=read(fd, privkey, 32)) != 32) {
+      if(len != -1)
+        errno=EAGAIN;
+      perror("/dev/urandom");
+      return;
+    }
+  } while(privkey[0]+1 < 2);  /* Ensure only valid private keys */
+
+  close(fd);
+
   /* Copy private key to secp256k1 scalar format */
   secp256k1_scalar_set_b32(&scalar_key, (u8 *)privkey, NULL);
 
