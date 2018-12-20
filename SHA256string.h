@@ -1,6 +1,8 @@
 #ifndef SHA256string_H
 #define SHA256string_H
-#include <string>
+#include <cstring>
+#include <fstream>
+#include <time.h>
 
 class SHA256string
 {

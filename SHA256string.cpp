@@ -1,6 +1,4 @@
-#include <cstring>
-#include <fstream>
-#include <time.h>
+
 #include "SHA256string.h"
 
 
