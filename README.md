@@ -1,88 +1,54 @@
-Super Vanitygen
-===============
+## *hashcat* ##
 
-Fast Vanity Bitcoin address generator for Linux using the
-[secp256k1](https://github.com/sipa/secp256k1) library.
+**hashcat** is the world's fastest and most advanced password recovery utility, supporting five unique modes of attack for over 200 highly-optimized hashing algorithms. hashcat currently supports CPUs, GPUs, and other hardware accelerators on Linux, Windows, and macOS, and has facilities to help enable distributed password cracking.
 
-Features:
-* Runs under the x86, x86\_64, arm, and arm64 (aarch64) architectures.
-* Includes fast assembly versions of SHA-256 for Intel CPUs with SSSE3, AVX,
-  AVX2, and SHA extensions.
+### License ###
 
-Limitations:
-* Currently only supports Bitcoin compressed public keys.
-* Does not support combining private keys via addition/multiplication methods.
+**hashcat** is licensed under the MIT license. Refer to [docs/license.txt](docs/license.txt) for more information.
 
-Example
--------
-Example program execution:
-(Note: Do _not_ send coins to this address!)
+### Installation ###
 
-    $ vanitygen 1Vanity
-    Difficulty: 888446610539
-    [5003 Kkey/s][Total 31878804156][Prob 3.5%][50% in 1.4d]
-    Private Key:   L3jTmJvNtjNrUw5SJJGFfGTog46fLutsQJ4XG66YWHMV5UmgFWqZ
-    Address:       1Vanity8HEFQDR7ZFsAUFeRR67AG38PcR
+Download the [latest release](https://hashcat.net/hashcat/) and unpack it in the desired location. Please remember to use `7z x` when unpacking the archive from the command line to ensure full file paths remain intact.
 
-Build Prerequisites
--------------------
-Successful compilation depends on installing these additional programs:
+### Usage/Help ###
 
-* GCC
-* Make
-* Libtool
-* Autotools
-* GMP
+Please refer to the [Hashcat Wiki](https://hashcat.net/wiki/) and the output of `--help` for usage information and general help. A list of frequently asked questions may also be found [here](https://hashcat.net/wiki/doku.php?id=frequently_asked_questions). The [Hashcat Forum](https://hashcat.net/forum/) also contains a plethora of information.
 
-Installing prerequisites on RedHat or Fedora Core:
+### Building ###
 
-    $ yum -y install gcc make automake autoconf libtool gmp-devel
+Refer to [BUILD.md](BUILD.md) for instructions on how to build **hashcat** from source.
 
-Installing prerequisites on Ubuntu:
+Tests:
 
-    $ sudo apt-get install build-essential automake autoconf libtool libgmp3-dev
+Travis | Appveyor | Coverity
+------ | -------- | --------
+[![Hashcat Travis Build status](https://travis-ci.org/hashcat/hashcat.svg?branch=master)](https://travis-ci.org/hashcat/hashcat) | [![Hashcat Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/hashcat/hashcat?branch=master&svg=true)](https://ci.appveyor.com/project/jsteube/hashcat) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/11753/badge.svg)](https://scan.coverity.com/projects/hashcat)
 
-Build Instructions
-------------------
-Simply run make:
+### Contributing ###
 
-    $ make
+Contributions are welcome and encouraged, provided your code is of sufficient quality. Before submitting a pull request, please ensure your code adheres to the following requirements:
 
-This will automatically configure the secp256k1 library and compile the
-project using default options. To change compile options in secp256k1, cd to
-secp256k1 and run configure with your new options, and then rerun make in the
-top level directory.
+1. Licensed under MIT license, or dedicated to the public domain (BSD, GPL, etc. code is incompatible)
+2. Adheres to gnu99 standard
+3. Compiles cleanly with no warnings when compiled with `-W -Wall -std=gnu99`
+4. Uses [Allman-style](https://en.wikipedia.org/wiki/Indent_style#Allman_style) code blocks & indentation
+5. Uses 2-spaces as the indentation or a tab if it's required (for example: Makefiles)
+6. Uses lower-case function and variable names
+7. Avoids the use of `!` and uses positive conditionals wherever possible (e.g., `if (foo == 0)` instead of `if (!foo)`, and `if (foo)` instead of `if (foo != 0)`)
+8. Use code like array[index + 0] if you also need to do array[index + 1], to keep it aligned
 
-If the gmp development library is not installed on your system, you may remove
--lgmp from the LDLIBS line in the Makefile. See below for other prerequisites.
+You can use GNU Indent to help assist you with the style requirements:
 
-For slow CPUs, you might get a better hash rate by lowering the "#define STEP"
-value in vanitygen.c. Similarly, server CPUs with large amounts of fast memory
-might benefit by increasing the STEP value.
+```
+indent -st -bad -bap -sc -bl -bli0 -ncdw -nce -cli0 -cbi0 -pcs -cs -npsl -bs -nbc -bls -blf -lp -i2 -ts2 -nut -l1024 -nbbo -fca -lc1024 -fc1
+```
 
-Warning
--------
-**Please verify all generated addresses before use!**
+Your pull request should fully describe the functionality you are adding/removing or the problem you are solving. Regardless of whether your patch modifies one line or one thousand lines, you must describe what has prompted and/or motivated the change.
 
-This software is beta and may contain bugs. Do not send coins to an address
-without first checking that the generated private/public keys are correct.
-Here are examples of other programs you can use to verify keys:
+Solve only one problem in each pull request. If you're fixing a bug and adding a new feature, you need to make two separate pull requests. If you're fixing three bugs, you need to make three separate pull requests. If you're adding four new features, you need to make four separate pull requests. So on, and so forth.
 
-* [bitaddress.org](https://www.bitaddress.org)
-* [bitcoin.sh](https://github.com/grondilu/bitcoin-bash-tools/blob/master/bitcoin.sh)
-* or any common wallet software.
+If your patch fixes a bug, please be sure there is an [issue](https://github.com/hashcat/hashcat/issues) open for the bug before submitting a pull request. If your patch aims to improve performance or optimize an algorithm, be sure to quantify your optimizations and document the trade-offs, and back up your claims with benchmarks and metrics.
 
-Do not run this program on a computer where others have the ability to strace
-your program's execution.
+In order to maintain the quality and integrity of the **hashcat** source tree, all pull requests must be reviewed and signed off by at least two [board members](https://github.com/orgs/hashcat/people) before being merged. The [project lead](https://github.com/jsteube) has the ultimate authority in deciding whether to accept or reject a pull request. Do not be discouraged if your pull request is rejected!
 
-License
--------
-This software is distributed under the GPLv2 license. Most individual portions
-are placed under compatible MIT or BSD licenses. See each respective file for
-details.
-
-Donations
----------
-If you've found this program useful, please consider sending me a few bits:
-
-`gandalf@winds.org` (via OpenAlias) or `1Ganda1fU65mNxGoXomdtReN3ejkcMHGEL`
+### Happy Cracking!
