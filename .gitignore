@@ -1,20 +1,43 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
 *.exe
-*.bin
-*.app
-hashcat
-hashcat.exe
-libhashcat.so.*
-libhashcat*.dylib
-hashcat.dll
-*.potfile
-*.restore
-*.dictstat2
-*.pot
-*.pid
-*.log
 *.out
-*.dSYM
-kernels/**
-lib/*.a
-obj/*.o
-include/CL
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+brainflayer
+hexln
+hex2blf
+blfchk
+ecmtabgen
+filehex
+
+# Debug files
+*.dSYM/
+
+# misc
+old
+notes
