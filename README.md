@@ -1,149 +1,54 @@
-Brainflayer
-===========
+## *hashcat* ##
 
-Brainflayer is a Proof-of-Concept brainwallet cracking tool that uses
-[libsecp256k1](https://github.com/bitcoin/secp256k1) for pubkey generation.
-It was originally released as part of my DEFCON talk about cracking brainwallets
-([slides](https://rya.nc/dc23), [video](https://rya.nc/b6), [why](https://rya.nc/defcon-brainwallets.html)).
+**hashcat** is the world's fastest and most advanced password recovery utility, supporting five unique modes of attack for over 200 highly-optimized hashing algorithms. hashcat currently supports CPUs, GPUs, and other hardware accelerators on Linux, Windows, and macOS, and has facilities to help enable distributed password cracking.
 
-The name is a reference to [Mind Flayers](https://en.wikipedia.org/wiki/Illithid),
-a race of monsters from the Dungeons & Dragons role-playing game. They eat
-brains, psionically enslave people and look like lovecraftian horrors.
+### License ###
 
-The current release is more than four times faster than the DEFCON release, and
-many features have been added.
+**hashcat** is licensed under the MIT license. Refer to [docs/license.txt](docs/license.txt) for more information.
 
-If brainflayer is useful to you, please get in touch to let me know. I'm very
-interested in any research it's being used for, and I'm generally happy to
-collaborate with academic groups.
+### Installation ###
 
-Disclaimer
-----------
-Just because you *can* steal someone's money doesn't mean you *should*.
-Stealing would make you a jerk. Don't be a jerk.
+Download the [latest release](https://hashcat.net/hashcat/) and unpack it in the desired location. Please remember to use `7z x` when unpacking the archive from the command line to ensure full file paths remain intact.
 
-No support will be provided at this time, and I may ignore or close issues
-requesting support without responding.
+### Usage/Help ###
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
+Please refer to the [Hashcat Wiki](https://hashcat.net/wiki/) and the output of `--help` for usage information and general help. A list of frequently asked questions may also be found [here](https://hashcat.net/wiki/doku.php?id=frequently_asked_questions). The [Hashcat Forum](https://hashcat.net/forum/) also contains a plethora of information.
 
-Usage
------
+### Building ###
 
-### Basic
+Refer to [BUILD.md](BUILD.md) for instructions on how to build **hashcat** from source.
 
-Precompute the bloom filter:
+Tests:
 
-`hex2blf example.hex example.blf`
+Travis | Appveyor | Coverity
+------ | -------- | --------
+[![Hashcat Travis Build status](https://travis-ci.org/hashcat/hashcat.svg?branch=master)](https://travis-ci.org/hashcat/hashcat) | [![Hashcat Appveyor Build status](https://ci.appveyor.com/api/projects/status/github/hashcat/hashcat?branch=master&svg=true)](https://ci.appveyor.com/project/jsteube/hashcat) | [![Coverity Scan Build Status](https://scan.coverity.com/projects/11753/badge.svg)](https://scan.coverity.com/projects/hashcat)
 
-Run Brainflayer against it:
+### Contributing ###
 
-`brainflayer -v -b example.blf -i phraselist.txt`
+Contributions are welcome and encouraged, provided your code is of sufficient quality. Before submitting a pull request, please ensure your code adheres to the following requirements:
 
-or
+1. Licensed under MIT license, or dedicated to the public domain (BSD, GPL, etc. code is incompatible)
+2. Adheres to gnu99 standard
+3. Compiles cleanly with no warnings when compiled with `-W -Wall -std=gnu99`
+4. Uses [Allman-style](https://en.wikipedia.org/wiki/Indent_style#Allman_style) code blocks & indentation
+5. Uses 2-spaces as the indentation or a tab if it's required (for example: Makefiles)
+6. Uses lower-case function and variable names
+7. Avoids the use of `!` and uses positive conditionals wherever possible (e.g., `if (foo == 0)` instead of `if (!foo)`, and `if (foo)` instead of `if (foo != 0)`)
+8. Use code like array[index + 0] if you also need to do array[index + 1], to keep it aligned
 
-`your_generator | brainflayer -v -b example.blf`
+You can use GNU Indent to help assist you with the style requirements:
 
-### Advanced
+```
+indent -st -bad -bap -sc -bl -bli0 -ncdw -nce -cli0 -cbi0 -pcs -cs -npsl -bs -nbc -bls -blf -lp -i2 -ts2 -nut -l1024 -nbbo -fca -lc1024 -fc1
+```
 
-Brainflayer's design is heavily influenced by [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy).
-It (mostly) does one thing: hunt for tasty brainwallets. A major feature it
-does *not* have is generating candidate passwords/passphrases. There are plenty
-of other great tools that do that, and brainflayer is happy to have you pipe
-their output to it.
+Your pull request should fully describe the functionality you are adding/removing or the problem you are solving. Regardless of whether your patch modifies one line or one thousand lines, you must describe what has prompted and/or motivated the change.
 
-Unfortunately, brainflayer is not currently multithreaded. If you want to have
-it keep multiple cores busy, you'll have to come up with a way to distribute
-the work yourself (brainflayer's -n and -k options may help). In my testing,
-brainflayer benefits significantly from hyperthreading, so you may want to
-run two copies per physical core. Also worth noting is that brainflayer mmaps
-its data files in shared memory, so additional brainflayer processes do not
-use up that much additional RAM.
+Solve only one problem in each pull request. If you're fixing a bug and adding a new feature, you need to make two separate pull requests. If you're fixing three bugs, you need to make three separate pull requests. If you're adding four new features, you need to make four separate pull requests. So on, and so forth.
 
-While not strictly required, it is *highly* recommended to use the following
-options:
+If your patch fixes a bug, please be sure there is an [issue](https://github.com/hashcat/hashcat/issues) open for the bug before submitting a pull request. If your patch aims to improve performance or optimize an algorithm, be sure to quantify your optimizations and document the trade-offs, and back up your claims with benchmarks and metrics.
 
-* `-m FILE` Load the ecmult table from `FILE` (generated with `ecmtabgen`)
-            rather than computing it on startup. This will allow multiple
-            brainflayer processes to share the same table in memory, and
-            signifigantly reduce startup time when using a large table.
+In order to maintain the quality and integrity of the **hashcat** source tree, all pull requests must be reviewed and signed off by at least two [board members](https://github.com/orgs/hashcat/people) before being merged. The [project lead](https://github.com/jsteube) has the ultimate authority in deciding whether to accept or reject a pull request. Do not be discouraged if your pull request is rejected!
 
-* `-f FILE` Verify check bloom filter matches against `FILE`, a list of all
-            hash160s generated with
-            `sort -u example.hex | xxd -r -p > example.bin`
-            Enough addresses exist on the Bitcoin network to cause false
-            positives in the bloom filter, this option will suppress them.
-
-Brainflayer supports a few other types of input via the `-t` option:
-
-* `-t keccak` passphrases to be hashed with keccak256 (some ethereum tools)
-
-* `-t priv` raw private keys - this can be used to support arbitrary
-            deterministic wallet schemes via an external program. Any trailing
-            data after the hex encoded private key will be included in
-            brainflayer's output as well, for reference. See also the `-I`
-            option if you want to crack a bunch of sequential keys, which has
-            special speed optimizations.
-
-* `-t warp` salts or passwords/passphrases for WarpWallet
-
-* `-t bwio` salts or passwords/passphrases for brainwallet.io
-
-* `-t bv2`  salts or passwords/passphrases for brainv2 - this one is *very* slow
-            on CPU, however the parameter choices make it a great target for GPUs
-            and FPGAs.
-
-* `-t rush` passwords for password-protected rushwallets - pass the fragment (the
-            part of the url after the #) using `-r`. Almost all wrong passwords
-            will be rejected even without a bloom filter.
-
-Address types can be specified with the `-c` option:
-
-* `-c u` uncompressed addresses
-
-* `-c c` compressed addresses
-
-* `-c e` ethereum addresses
-
-* `-c x` most signifigant bits of public point's x coordinate
-
-It's possible to combine two or more of these, e.g. the default is `-c uc`.
-
-An incremental private key brute force mode is available for fans of
-[directory.io](http://www.directory.io/), try
-
-`brainflayer -v -I 0000000000000000000000000000000000000000000000000000000000000001 -b example.blf`
-
-See the output of `brainflayer -h` for more detailed usage info.
-
-Also included is `blfchk` - you can pipe it hex encoded hash160 to check a
-bloom filter file for. It's very fast - it can easily check millions of
-hash160s per second. Not entirely sure what this is good for but I'm sure
-you'll come up with something.
-
-Building
---------
-
-Should compile on Linux with `make` provided you have the required devel libs
-installed (at least openssl and gmp are required along with libsecp256k1's
-build dependencies). I really need to learn autotools. If you file an issue
-about a build failure in libsecp256k1 I will close it.
-
-Authors
--------
-
-The bulk of Brainflayer was written by Ryan Castellucci. Nicolas Courtois and
-Guangyan Song contributed the code in `ec_pubkey_fast.c` which more than
-doubles the speed of public key computations compared with the stock secp256k1
-library from Bitcoin. This code uses a much larger table for ec multiplication
-and optimized routines for ec addition and doubling.
+### Happy Cracking!
