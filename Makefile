@@ -9,7 +9,7 @@ CFLAGS = -O3 \
          -flto -funsigned-char -falign-functions=16 -falign-loops=16 -falign-jumps=16 \
          -Wall -Wextra -Wno-pointer-sign -Wno-sign-compare \
          -pedantic -std=gnu99
-COMPILE = gcc $(CFLAGS)
+COMPILE = g++ $(CFLAGS)
 
 all: $(BINARIES)
 
